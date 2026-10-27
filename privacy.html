@@ -50,6 +50,13 @@ body{background:var(--paper);color:var(--ink)}
 .guide-item p{margin-bottom:0}
 .guide-item ul{display:grid;gap:7px;margin:9px 0 0;padding-left:17px}
 .guide-item strong{color:#e7f1ff}
+.privacy-check{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:25px 0}
+.privacy-step{padding:18px;border:1px solid #25364c;background:#101722}
+.privacy-step .micro{color:#8eb8ff}
+.privacy-step h3{margin:9px 0 7px;font-size:14px}
+.privacy-step p{margin:0;color:#bdcde0;font-size:11px}
+.privacy-sources{padding:16px 18px;border-left:3px solid #43a9ff;background:#101722;color:#bdcde0;font-size:11px}
+.privacy-sources a{color:#8eb8ff;text-decoration-thickness:1px;text-underline-offset:3px}
 .quiz-option.correct,.quiz-option.wrong{border-color:#43a9ff;background:#43a9ff20}
 .footer{background:#03060b;color:#c4d5e9}
 .evidence-section{border-top:1px solid #25364c}
@@ -71,7 +78,7 @@ body{background:var(--paper);color:var(--ink)}
 <body>
 <header class="wrap topbar">
   <a class="wordmark" href="#top" aria-label="TRACE privacy field lab home"><span class="wordmark-icon" aria-hidden="true">T</span><span>TRACE <span style="font-weight:500;color:#68736c">/ FIELD LAB 01</span></span></a>
-  <nav class="topnav" aria-label="Main navigation"><a href="#lab">Data lab</a><a href="#field-guide">Field guide</a><a href="#law">Law & rights</a><a href="#quiz">Knowledge check</a><a href="#reflection">Reflection</a><a href="#peer">Peer test</a></nav>
+  <nav class="topnav" aria-label="Main navigation"><a href="#lab">Data lab</a><a href="#field-guide">Field guide</a><a href="#law">Law & rights</a><a href="#privacy-check">Privacy check</a><a href="#quiz">Knowledge check</a><a href="#reflection">Reflection</a></nav>
 </header>
 <main id="top">
   <section class="hero">
@@ -182,23 +189,22 @@ body{background:var(--paper);color:var(--ink)}
     </form>
   </section>
 
-  <section class="laws" id="peer">
-    <div class="wrap section evidence-section">
-      <div class="section-label">06 / Test and improve</div>
-      <h2>Run a peer test.</h2>
-      <p class="section-intro">Ask a classmate to try the data lab and one quiz question without coaching. Record one piece of feedback and the improvement you make because of it. Do not record their name.</p>
-      <form class="evidence-form" id="peer-form">
-        <label for="peer-feedback">What did your tester find confusing or useful?<textarea id="peer-feedback" name="feedback" required maxlength="500" placeholder="Record one specific reaction without identifying the tester."></textarea></label>
-        <label for="peer-improvement">What did you change or plan to change based on that feedback?<textarea id="peer-improvement" name="improvement" required maxlength="500" placeholder="Document one specific improvement and how it responds to the feedback."></textarea></label>
-        <button class="primary-button" type="submit">Save peer test</button>
-        <p class="saved-status" id="peer-status" aria-live="polite">No peer test recorded yet.</p>
-        <p class="evidence-note">This is a local assessment log, not a submission service. Nothing is sent to a server.</p>
-      </form>
+  <section class="laws" id="privacy-check">
+    <div class="wrap section">
+      <div class="section-label">06 / Before you tap Allow</div>
+      <h2>Pause. Check the data path.</h2>
+      <p class="section-intro">A permission prompt is only one part of the decision. Check what the feature needs, what the app keeps, and who else can receive the information.</p>
+      <div class="privacy-check">
+        <article class="privacy-step"><span class="micro">01 / Need</span><h3>Does this feature need exact location?</h3><p>Turn-by-turn directions may need precise location while a trip is active. A feature that does not need a live route may not need continuous background access. Ask for the least access that still works.</p></article>
+        <article class="privacy-step"><span class="micro">02 / Keep</span><h3>What happens after the trip?</h3><p>Look for saved route history, retention periods, and deletion controls. A location permission and a stored trip history are different things; turning off one may not remove the other.</p></article>
+        <article class="privacy-step"><span class="micro">03 / Share</span><h3>Who else receives the data?</h3><p>Read the collection notice and sharing settings. If you are a California resident and the business is covered by the CCPA, review its options for requests to know, delete, and opt out of sale or sharing; exceptions apply.</p></article>
+      </div>
+      <div class="privacy-sources"><strong>Sources for this checklist:</strong> The <a href="https://www.ftc.gov/business-guidance/resources/complying-coppa-frequently-asked-questions" target="_blank" rel="noopener noreferrer">FTC COPPA FAQ, especially its geolocation and parental-consent guidance</a>, explains when covered child-directed services need notice and consent before collecting qualifying location data. The <a href="https://oag.ca.gov/privacy/ccpa" target="_blank" rel="noopener noreferrer">California Attorney General's CCPA FAQ</a> explains covered California residents' rights to know, delete, and opt out of sale or sharing. These are jurisdiction-specific rules, not universal promises about every app.</div>
     </div>
   </section>
 
 </main>
-<footer class="footer"><div class="wrap footer-inner"><p><strong>TRACE / Privacy Field Lab.</strong> A classroom learning project about location data, ethical technology design, COPPA (United States), and the CCPA (California). Fictional app, fictional route. This site does not request location or use analytics; reflection and peer-test notes stay in this browser.</p><span class="micro">Sources checked October 2026</span></div></footer>
+<footer class="footer"><div class="wrap footer-inner"><p><strong>TRACE / Privacy Field Lab.</strong> A classroom learning project about location data, ethical technology design, COPPA (United States), and the CCPA (California). Fictional app, fictional route. This site does not request location or use analytics; reflection notes stay in this browser.</p><span class="micro">Sources checked October 2026</span></div></footer>
 <script>
 (() => {
   const settings = ["precise", "background", "retention", "partners"];
@@ -354,7 +360,6 @@ body{background:var(--paper);color:var(--ink)}
     updateReview();
   });
   connectLocalForm("#reflection-form", "trace-field-note", "#reflection-status", "Field note saved in this browser.");
-  connectLocalForm("#peer-form", "trace-peer-test", "#peer-status", "Peer-test record saved in this browser.");
   updateReview();
   renderQuestion();
 })();
