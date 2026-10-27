@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#050a12">
+<meta name="description" content="An interactive field lab about location privacy, ethical software design, and the laws that protect personal information.">
+<title>TRACE | Privacy Field Lab</title>
+<style>
+:root{color-scheme:light;--paper:#f3f5ef;--white:#fff;--ink:#17231e;--forest:#14251f;--muted:#66716b;--line:#d7ddd4;--lime:#d8ff68;--coral:#ef765f;--blue:#4668d9;--aqua:#9de6d1;--shadow:0 12px 32px #17231e0b}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55}button,input,textarea{font:inherit}button{cursor:pointer}a{color:inherit}.wrap{width:min(1120px,calc(100% - 40px));margin-inline:auto}.topbar{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px 0}.wordmark{display:flex;align-items:center;gap:10px;text-decoration:none;font-size:12px;font-weight:850;letter-spacing:.13em}.wordmark-icon{display:grid;width:30px;height:30px;place-items:center;background:var(--lime);font-size:15px}.topnav{display:flex;gap:22px}.topnav a{font-size:11px;font-weight:720;text-decoration:none;color:#46524b}.topnav a:hover{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}.hero{position:relative;overflow:hidden;background:var(--forest);color:#f5f6ef}.hero-inner{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:55px;min-height:425px;padding:55px 0 58px}.eyebrow,.micro,.section-label{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:10px;font-weight:750;letter-spacing:.11em;text-transform:uppercase}.hero .eyebrow{color:var(--lime)}h1,h2,h3,p{margin-top:0}h1{max-width:620px;margin:17px 0 16px;font-family:Georgia,"Times New Roman",serif;font-size:62px;font-weight:500;line-height:1.02;letter-spacing:0}h1 em{color:var(--lime);font-weight:500}.hero-copy>p{max-width:470px;margin-bottom:24px;color:#d0d8d1;font-size:15px}.hero-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap}.button-link,.primary-button,.secondary-button{display:inline-flex;min-height:44px;align-items:center;justify-content:center;gap:9px;padding:0 16px;border:1px solid transparent;font-size:11px;font-weight:800;letter-spacing:.04em;text-decoration:none}.button-link{background:var(--lime);color:var(--ink)}.button-link:hover,.primary-button:hover{filter:brightness(.95)}.text-link{color:#d7e1d8;font-size:11px;font-weight:700;text-decoration-thickness:1px;text-underline-offset:4px}.trace-card{position:relative;min-height:300px;padding:24px 24px 18px;border:1px solid #ffffff27;background:#ffffff08}.trace-top{display:flex;justify-content:space-between;gap:12px;padding-bottom:15px;border-bottom:1px solid #ffffff24}.trace-top span:last-child{color:#adbcb2}.trace-list{margin:18px 0 14px;padding:0;list-style:none}.trace-step{position:relative;display:grid;grid-template-columns:53px 22px 1fr;align-items:center;min-height:48px;color:#dbe4dc}.trace-step:not(:last-child) .trace-pin:after{position:absolute;top:15px;left:8px;width:1px;height:34px;background:#d8ff6870;content:""}.trace-time{color:#aab8ad;font-family:ui-monospace,monospace;font-size:10px}.trace-pin{position:relative;z-index:1;width:17px;height:17px;border:1px solid var(--lime);border-radius:50%;background:var(--forest)}.trace-pin:before{position:absolute;inset:4px;border-radius:50%;background:var(--lime);content:""}.trace-place{padding-left:9px;font-size:12px;font-weight:700}.trace-place small{display:block;color:#9daea1;font-size:10px;font-weight:500}.trace-note{margin:0;padding-top:12px;border-top:1px solid #ffffff24;color:#c5d0c7;font-size:11px}.trace-note strong{color:var(--coral)}.meta-strip{display:flex;gap:0;justify-content:space-between;padding:15px 0;border-bottom:1px solid var(--line);color:#59645e}.meta-strip span{font-family:ui-monospace,monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase}.meta-strip span+span{padding-left:14px;border-left:1px solid var(--line)}.section{padding:68px 0}.section-label{margin-bottom:13px;color:#526158}.section h2{max-width:720px;margin-bottom:12px;font-family:Georgia,"Times New Roman",serif;font-size:40px;font-weight:500;line-height:1.12;letter-spacing:0}.section-intro{max-width:650px;margin-bottom:30px;color:#59645e;font-size:14px}.lab-shell{display:grid;grid-template-columns:1.05fr .95fr;border:1px solid var(--line);background:var(--white);box-shadow:var(--shadow)}.control-panel{padding:28px}.panel-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:20px}.panel-heading h3{margin:0;font-size:17px}.case-tag{padding:5px 8px;background:#edf0e9;color:#526158;font-family:ui-monospace,monospace;font-size:9px;font-weight:750;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}.case-copy{margin:-9px 0 20px;color:#66716b;font-size:12px}.toggle-list{display:grid;gap:0}.toggle-row{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:15px 0;border-top:1px solid #e8ebe5;cursor:pointer}.toggle-copy{display:block}.toggle-title{display:block;font-size:12px;font-weight:760}.toggle-detail{display:block;margin-top:3px;color:#66716b;font-size:10px;line-height:1.45}.switch{position:relative;flex:0 0 42px;width:42px;height:24px}.switch input{position:absolute;width:1px;height:1px;opacity:0}.switch-track{position:absolute;inset:0;border:1px solid #aeb8af;background:#e6e9e3;transition:background .15s,border-color .15s}.switch-track:after{position:absolute;top:3px;left:3px;width:16px;height:16px;background:#fff;box-shadow:0 1px 3px #0002;content:"";transition:transform .15s}.switch input:checked+.switch-track{border-color:var(--forest);background:var(--forest)}.switch input:checked+.switch-track:after{transform:translateX(18px);background:var(--lime)}.switch input:focus-visible+.switch-track{outline:2px solid var(--blue);outline-offset:3px}.panel-actions{display:flex;align-items:center;gap:12px;margin-top:19px}.primary-button{background:var(--forest);color:#fff}.primary-button:focus-visible,.secondary-button:focus-visible,.quiz-option:focus-visible{outline:3px solid var(--blue);outline-offset:3px}.secondary-button{border-color:var(--line);background:transparent;color:var(--ink)}.review-panel{display:flex;flex-direction:column;padding:28px;background:#e9ede5}.review-top{display:flex;justify-content:space-between;align-items:center;gap:12px}.review-top h3{margin:0;font-size:12px;letter-spacing:.07em;text-transform:uppercase}.risk-number{color:#5d685f;font-family:ui-monospace,monospace;font-size:11px;font-weight:750}.risk-meter{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin:13px 0 9px}.risk-meter span{height:7px;background:#d0d7ce}.risk-meter span.active{background:var(--coral)}.risk-meter.low span.active{background:#71ad69}.risk-status{margin:0 0 18px;color:#46524b;font-size:11px;font-weight:760}.data-preview{padding:14px 0;border-top:1px solid #cbd3c9;border-bottom:1px solid #cbd3c9}.data-preview h4,.recommendations h4{margin:0 0 8px;font-family:ui-monospace,monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase}.data-pills{display:flex;flex-wrap:wrap;gap:6px}.data-pill{padding:4px 7px;border:1px solid #cbd3c9;background:#f7f8f4;color:#344139;font-size:10px}.data-pill.empty{color:#727d75}.recommendations{padding-top:14px}.recommendations ul{display:grid;gap:8px;margin:0;padding-left:17px;color:#48534c;font-size:11px}.review-foot{margin:auto 0 0;padding-top:17px;color:#66716b;font-size:10px}.ethics-band{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:18px;padding:17px 19px;border-left:3px solid var(--coral);background:#fff}.ethics-band h3{margin:0 0 5px;font-size:12px}.ethics-band p{margin:0;color:#58635c;font-size:11px}.laws{background:#e8ece5}.law-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:26px}.law-card{padding:23px;border:1px solid #d5dbd2;background:#f7f8f4}.law-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.jurisdiction{padding:5px 8px;background:var(--forest);color:var(--lime);font-family:ui-monospace,monospace;font-size:9px;font-weight:750;letter-spacing:.06em;text-transform:uppercase}.law-card h3{margin:0 0 8px;font-family:Georgia,"Times New Roman",serif;font-size:22px;font-weight:500}.law-card p{margin:0 0 12px;color:#556159;font-size:12px}.law-card ul{display:grid;gap:7px;margin:0 0 18px;padding-left:18px;color:#344139;font-size:11px}.source-link{display:inline-block;color:#2948ad;font-size:10px;font-weight:750;text-decoration-thickness:1px;text-underline-offset:3px}.law-caveat{margin:20px 0 0;padding:13px 15px;border:1px solid #d5dbd2;background:#f7f8f4;color:#58635c;font-size:11px}.quiz{background:var(--forest);color:#f4f6ef}.quiz .section-label{color:var(--lime)}.quiz .section-intro{color:#c3d0c5}.quiz-layout{display:grid;grid-template-columns:.6fr 1.4fr;gap:38px;align-items:start}.quiz-side{padding-top:5px}.quiz-side .section-label{margin-bottom:14px}.quiz-progress{color:#b9c9bd;font-family:ui-monospace,monospace;font-size:10px}.quiz-card{padding:25px;border:1px solid #ffffff2a;background:#ffffff09}.quiz-question{margin:4px 0 20px;font-family:Georgia,"Times New Roman",serif;font-size:25px;font-weight:500;line-height:1.2}.quiz-options{display:grid;gap:8px}.quiz-option{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;width:100%;padding:12px;border:1px solid #ffffff38;background:#ffffff08;color:#f4f6ef;text-align:left;font-size:12px;line-height:1.45}.quiz-option:hover:not(:disabled){border-color:var(--lime);background:#d8ff6812}.option-letter{display:grid;width:22px;height:22px;place-items:center;background:#ffffff14;color:var(--lime);font-family:ui-monospace,monospace;font-size:10px;font-weight:750}.quiz-option.correct{border-color:#8de2ad;background:#8de2ad15}.quiz-option.wrong{border-color:var(--coral);background:#ef765f15}.quiz-feedback{min-height:48px;margin:13px 0 0;color:#d4dfd6;font-size:11px}.quiz-controls{display:flex;justify-content:space-between;align-items:center;gap:15px}.quiz-controls .primary-button{background:var(--lime);color:var(--ink)}.quiz-controls .primary-button:disabled{opacity:.42;cursor:not-allowed}.quiz-final{color:var(--lime);font-size:13px;font-weight:750}.peer{padding:68px 0}.peer-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:45px}.peer-info h2{font-size:35px}.peer-info p{max-width:390px;color:#59645e;font-size:13px}.local-note{display:inline-block;margin-top:9px;padding:7px 9px;background:#e5e9e0;color:#536057;font-size:10px}.peer-form{padding:21px;border:1px solid var(--line);background:#fff}.peer-form label{display:block;margin-bottom:13px;font-size:11px;font-weight:750}.peer-form textarea{display:block;width:100%;min-height:64px;margin-top:6px;padding:9px;border:1px solid #cbd3c9;background:#fbfcf9;color:var(--ink);font-size:12px;resize:vertical}.peer-form textarea:focus{outline:2px solid var(--blue);outline-offset:1px}.peer-form button{margin-top:3px}.peer-result{margin:12px 0 0;color:#526158;font-size:11px}.peer-entry{margin-top:15px;padding-top:12px;border-top:1px solid var(--line);font-size:11px}.peer-entry p{margin:4px 0;color:#566159}.footer{padding:26px 0;background:var(--forest);color:#c4d0c7}.footer-inner{display:flex;justify-content:space-between;gap:24px;align-items:flex-start}.footer p{max-width:560px;margin:0;font-size:10px}.footer a{color:var(--lime)}.footer .micro{color:#a8b8ac}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:780px){.hero-inner{grid-template-columns:1fr;gap:30px;padding:44px 0}.trace-card{max-width:540px}.lab-shell{grid-template-columns:1fr}.review-panel{min-height:360px}.quiz-layout{grid-template-columns:1fr;gap:10px}.quiz-side{display:flex;justify-content:space-between;align-items:baseline}.peer-grid{grid-template-columns:1fr;gap:18px}}@media(max-width:560px){.wrap{width:calc(100% - 28px)}.topbar{align-items:flex-start}.topnav{gap:10px;flex-wrap:wrap;justify-content:flex-end}.topnav a{font-size:10px}.wordmark{font-size:10px}.hero-inner{padding:34px 0}.hero-copy>p{font-size:14px}h1{font-size:47px}.trace-card{min-height:280px;padding:18px}.meta-strip{gap:8px}.meta-strip span{font-size:8px}.meta-strip span+span{padding-left:8px}.section,.peer{padding:49px 0}.section h2{font-size:33px}.control-panel,.review-panel{padding:19px}.law-grid{grid-template-columns:1fr}.law-card{padding:18px}.ethics-band{grid-template-columns:1fr;gap:12px}.quiz-card{padding:17px}.quiz-question{font-size:22px}.footer-inner{flex-direction:column;gap:12px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+<style>
+:root{color-scheme:dark;--paper:#070b12;--white:#101722;--ink:#e7f1ff;--forest:#050a12;--muted:#9bb0c8;--line:#25364c;--lime:#43a9ff;--coral:#78c8ff;--blue:#8eb8ff;--aqua:#60d4ff;--shadow:0 12px 32px #0006}
+body{background:var(--paper);color:var(--ink)}
+.topnav a,.wordmark span span{color:#b6c8df!important}
+.hero{color:var(--ink)}
+.hero-copy>p{color:#c3d3e8}
+.trace-top span:last-child,.trace-time,.trace-place small{color:#91a9c5}
+.trace-step{color:#dce9f8}
+.trace-pin:after{background:#43a9ff80!important}
+.trace-note{color:#bfd1e7}
+.meta-strip{color:#9bb0c8}
+.section-intro,.case-copy{color:#aabbd1}
+.case-tag{background:#172439;color:#a8bedb}
+.toggle-row{border-color:#25364c}
+.toggle-detail{color:#9bb0c8}
+.switch-track{border-color:#52657d;background:#172439}
+.switch-track:after{background:#dceaff}
+.switch input:checked+.switch-track{border-color:#43a9ff;background:#164a78}
+.review-panel{background:#101a28}
+.risk-meter span{background:#26364b}
+.risk-meter span.active,.risk-meter.low span.active{background:#43a9ff}
+.risk-status,.recommendations ul{color:#c4d5e9}
+.data-preview{border-color:#33465e}
+.data-pill{border-color:#33465e;background:#172439;color:#d9e8f8}
+.data-pill.empty{color:#9bb0c8}
+.review-foot{color:#96abc4}
+.ethics-band{border-color:#43a9ff;background:#101a28}
+.ethics-band p{color:#b1c5dd}
+.laws{background:#0b111b}
+.law-card,.law-caveat{border-color:#25364c;background:#101722}
+.law-card p,.law-card ul,.law-caveat{color:#bdcde0}
+.jurisdiction{background:#123a62;color:#bce5ff}
+.source-link{color:#8eb8ff}
+.quiz-option.correct,.quiz-option.wrong{border-color:#43a9ff;background:#43a9ff20}
+.footer{background:#03060b;color:#c4d5e9}
+.evidence-section{border-top:1px solid #25364c}
+.evidence-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:24px}
+.evidence-panel{padding:22px;border:1px solid #25364c;background:#101722}
+.evidence-panel h3{margin:0 0 7px;font-size:15px}
+.evidence-panel>p{margin:0 0 18px;color:#aabbd1;font-size:11px}
+.evidence-form{display:grid;gap:13px}
+.evidence-form label{display:block;color:#dbe8f8;font-size:11px;font-weight:730}
+.evidence-form textarea,.evidence-form select{display:block;width:100%;margin-top:6px;padding:10px;border:1px solid #33465e;border-radius:0;background:#080e18;color:#e7f1ff;font-size:12px;line-height:1.45}
+.evidence-form textarea{min-height:84px;resize:vertical}
+.evidence-form textarea:focus,.evidence-form select:focus{outline:2px solid #8eb8ff;outline-offset:1px}
+.evidence-note,.saved-status{margin:0;color:#9bb0c8;font-size:10px}
+.saved-status{min-height:16px;color:#8eb8ff}
+@media(max-width:700px){.evidence-grid{grid-template-columns:1fr}.evidence-panel{padding:17px}}
+@media(max-width:780px){.review-panel{min-height:360px}}
+</style>
+</head>
+<body>
+<header class="wrap topbar">
+  <a class="wordmark" href="#top" aria-label="TRACE privacy field lab home"><span class="wordmark-icon" aria-hidden="true">T</span><span>TRACE <span style="font-weight:500;color:#68736c">/ FIELD LAB 01</span></span></a>
+  <nav class="topnav" aria-label="Main navigation"><a href="#lab">Data lab</a><a href="#law">Law & rights</a><a href="#quiz">Knowledge check</a><a href="#reflection">Reflection</a><a href="#peer">Peer test</a></nav>
+</header>
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div class="hero-copy">
+        <div class="eyebrow">A case study in privacy by design</div>
+        <h1>Your route is <em>a record.</em></h1>
+        <p>A navigation app needs your location to guide you. But a trail of places and timestamps can reveal much more than directions. Investigate what an app collects, decide what is fair, and test your choices against real privacy rules.</p>
+        <div class="hero-actions"><a class="button-link" href="#lab">Open the data lab <span aria-hidden="true">↓</span></a><a class="text-link" href="#law">Jump to the laws</a></div>
+      </div>
+      <aside class="trace-card" aria-label="Fictional example of a location timeline">
+        <div class="trace-top"><span class="micro">A day, reconstructed</span><span class="micro">fictional data</span></div>
+        <ol class="trace-list">
+          <li class="trace-step"><span class="trace-time">07:42</span><span class="trace-pin" aria-hidden="true"></span><span class="trace-place">Home<small>route begins</small></span></li>
+          <li class="trace-step"><span class="trace-time">08:16</span><span class="trace-pin" aria-hidden="true"></span><span class="trace-place">School<small>regular weekday stop</small></span></li>
+          <li class="trace-step"><span class="trace-time">15:28</span><span class="trace-pin" aria-hidden="true"></span><span class="trace-place">Pharmacy<small>an unplanned visit</small></span></li>
+          <li class="trace-step"><span class="trace-time">17:03</span><span class="trace-pin" aria-hidden="true"></span><span class="trace-place">Home<small>route ends</small></span></li>
+        </ol>
+        <p class="trace-note"><strong>One coordinate is a place.</strong> A history of coordinates can become a pattern about a person.</p>
+      </aside>
+    </div>
+  </section>
+  <div class="wrap meta-strip" aria-label="Learning goals"><span>01 / Notice the data</span><span>02 / Make an ethical choice</span><span>03 / Check the law</span></div>
+
+  <section class="wrap section" id="lab">
+    <div class="section-label">01 / Interactive design review</div>
+    <h2>You're reviewing a navigation app before launch.</h2>
+    <p class="section-intro">Waypoint needs location to guide a driver. Its product team proposes the settings below. Toggle them, inspect the data footprint, and run an ethics review. This is a learning simulation, not a legal compliance score.</p>
+    <div class="lab-shell">
+      <div class="control-panel">
+        <div class="panel-heading"><h3>Waypoint's proposed settings</h3><span class="case-tag">fictional app</span></div>
+        <p class="case-copy">Choose what the app collects, how long it keeps the trail, and whether it shares it.</p>
+        <div class="toggle-list">
+          <label class="toggle-row" for="precise"><span class="toggle-copy"><span class="toggle-title">Precise location during navigation</span><span class="toggle-detail">Exact coordinates can pinpoint a street address.</span></span><span class="switch"><input id="precise" type="checkbox" checked><span class="switch-track"></span></span></label>
+          <label class="toggle-row" for="background"><span class="toggle-copy"><span class="toggle-title">Collect location in the background</span><span class="toggle-detail">Continue sampling after the user leaves the app.</span></span><span class="switch"><input id="background" type="checkbox"><span class="switch-track"></span></span></label>
+          <label class="toggle-row" for="retention"><span class="toggle-copy"><span class="toggle-title">Keep a 90-day route history</span><span class="toggle-detail">Retain trips after navigation is complete.</span></span><span class="switch"><input id="retention" type="checkbox" checked><span class="switch-track"></span></span></label>
+          <label class="toggle-row" for="partners"><span class="toggle-copy"><span class="toggle-title">Share route-level data with ad partners</span><span class="toggle-detail">Give another company detailed trip information.</span></span><span class="switch"><input id="partners" type="checkbox" checked><span class="switch-track"></span></span></label>
+        </div>
+        <div class="panel-actions"><button class="primary-button" id="review-button" type="button">Run ethics review</button><button class="secondary-button" id="reset-button" type="button">Reset case</button></div>
+      </div>
+      <div class="review-panel" aria-live="polite">
+        <div class="review-top"><h3>Data exposure</h3><span class="risk-number" id="risk-number">Review not run</span></div>
+        <div class="risk-meter" id="risk-meter" role="img" aria-label="No review run"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <p class="risk-status" id="risk-status">Change a setting, then run the review.</p>
+        <div class="data-preview"><h4>What this configuration can reveal</h4><div class="data-pills" id="data-pills"><span class="data-pill">Exact route coordinates</span><span class="data-pill">Trip timestamps</span><span class="data-pill">Origin and destination</span></div></div>
+        <div class="recommendations"><h4>Design notes</h4><ul id="recommendations"><li>Precise location is useful for turn-by-turn directions, but ask only when needed and explain why.</li><li>Route histories can reveal routines and sensitive visits.</li><li>Route-level sharing with advertisers creates a separate privacy risk.</li></ul></div>
+        <p class="review-foot">The score is a teaching aid, not a legal verdict. A low score does not replace security, transparency, or meaningful user choice.</p>
+      </div>
+    </div>
+    <div class="ethics-band"><div><h3>Ethics asks more than “Can we?”</h3><p>Would a reasonable user expect this collection? Is it needed for the feature? Can people understand, refuse, and change their choice?</p></div><div><h3>Start with less</h3><p>Collect only what the service needs, limit access and retention, explain the purpose, and give people a real choice before optional tracking or sharing.</p></div></div>
+  </section>
+
+  <section class="laws" id="law">
+    <div class="wrap section">
+      <div class="section-label">02 / Law is a floor, not the whole design</div>
+      <h2>Two rules. Two different scopes.</h2>
+      <p class="section-intro">A law can require specific protections in a specific jurisdiction. It does not answer every ethical question about an app's design.</p>
+      <div class="law-grid">
+        <article class="law-card">
+          <div class="law-top"><span class="jurisdiction">United States · Federal</span><span class="micro">Children's privacy</span></div>
+          <h3>COPPA</h3>
+          <p>The Children's Online Privacy Protection Act and FTC Rule apply to covered online services directed to children under 13, and to general-audience services with actual knowledge they are collecting personal information from a child under 13.</p>
+          <ul><li>Precise geolocation that can identify a street and city or town counts as personal information under the Rule.</li><li>Covered operators generally must give parents notice and obtain verifiable parental consent before collecting it, unless a specific exception applies.</li><li>For a child-directed app, turning off location later is not a substitute for required notice and consent before collection.</li></ul>
+          <a class="source-link" href="https://www.ftc.gov/business-guidance/resources/complying-coppa-frequently-asked-questions" target="_blank" rel="noopener noreferrer">Source: Federal Trade Commission COPPA FAQ ↗</a>
+        </article>
+        <article class="law-card">
+          <div class="law-top"><span class="jurisdiction">California · State</span><span class="micro">Consumer privacy</span></div>
+          <h3>CCPA, as amended by CPRA</h3>
+          <p>For California residents, the CCPA provides privacy rights when a business is covered by the law. Precise geolocation is an example of sensitive personal information.</p>
+          <ul><li>Rights include knowing, deleting, and correcting personal information.</li><li>Consumers can opt out of sale or sharing and can limit certain uses of sensitive personal information.</li><li>Coverage, exceptions, and the details of each right matter; the law does not apply to every business in the same way.</li></ul>
+          <a class="source-link" href="https://oag.ca.gov/privacy/ccpa" target="_blank" rel="noopener noreferrer">Source: California Attorney General CCPA FAQ ↗</a>
+        </article>
+      </div>
+      <p class="law-caveat"><strong>Important:</strong> These are classroom summaries, not legal advice. Laws and regulations change; check the official sources for current text and applicability. An NDA can protect confidential information shared in a business relationship, but it does not itself authorize collecting someone's data or erase privacy rights.</p>
+    </div>
+  </section>
+
+  <section class="quiz" id="quiz">
+    <div class="wrap section quiz-layout">
+      <div class="quiz-side"><div><div class="section-label">03 / Check your reasoning</div><h2>Make the call.</h2><p class="section-intro">Four short cases. Choose an answer, read the feedback, and see what you can explain.</p></div><span class="quiz-progress" id="quiz-progress">CASE 1 / 4</span></div>
+      <div class="quiz-card" aria-live="polite"><p class="section-label" id="quiz-topic">LOCATION DATA</p><h3 class="quiz-question" id="quiz-question"></h3><div class="quiz-options" id="quiz-options"></div><p class="quiz-feedback" id="quiz-feedback" aria-live="polite"></p><div class="quiz-controls"><span class="quiz-final" id="quiz-score"></span><button class="primary-button" id="next-question" type="button" disabled>Check answer</button></div></div>
+    </div>
+  </section>
+
+  <section class="wrap section evidence-section" id="reflection">
+    <div class="section-label">04 / Show your reasoning</div>
+    <h2>Write your field note.</h2>
+    <p class="section-intro">Use your own words to connect one interaction in the lab to the privacy risk, the ethical choice, and a revision you would make.</p>
+    <form class="evidence-form" id="reflection-form">
+      <label for="interaction">Which setting did you change in the data lab, and what changed in the review?<textarea id="interaction" name="interaction" required maxlength="500" placeholder="For example: I switched off background location. The review removed background points and recommended limiting collection to active navigation."></textarea></label>
+      <label for="ethics-explanation">Explain the ethical concern, then name one relevant law and its jurisdiction.<textarea id="ethics-explanation" name="ethics" required maxlength="700" placeholder="Separate what responsible design should do from what a specific law requires."></textarea></label>
+      <label for="revision-explanation">What revision would make this app or lesson better, and why?<textarea id="revision-explanation" name="revision" required maxlength="500" placeholder="Describe one concrete change and connect it to privacy, clarity, or user choice."></textarea></label>
+      <button class="primary-button" type="submit">Save my field note</button>
+      <p class="saved-status" id="reflection-status" aria-live="polite">Your field note has not been saved yet.</p>
+      <p class="evidence-note">Responses are saved only in this browser. Don't include your name or other personal information.</p>
+    </form>
+  </section>
+
+  <section class="laws" id="peer">
+    <div class="wrap section evidence-section">
+      <div class="section-label">05 / Test and improve</div>
+      <h2>Run a peer test.</h2>
+      <p class="section-intro">Ask a classmate to try the data lab and one quiz question without coaching. Record one piece of feedback and the improvement you make because of it. Do not record their name.</p>
+      <form class="evidence-form" id="peer-form">
+        <label for="peer-feedback">What did your tester find confusing or useful?<textarea id="peer-feedback" name="feedback" required maxlength="500" placeholder="Record one specific reaction without identifying the tester."></textarea></label>
+        <label for="peer-improvement">What did you change or plan to change based on that feedback?<textarea id="peer-improvement" name="improvement" required maxlength="500" placeholder="Document one specific improvement and how it responds to the feedback."></textarea></label>
+        <button class="primary-button" type="submit">Save peer test</button>
+        <p class="saved-status" id="peer-status" aria-live="polite">No peer test recorded yet.</p>
+        <p class="evidence-note">This is a local assessment log, not a submission service. Nothing is sent to a server.</p>
+      </form>
+    </div>
+  </section>
+
+</main>
+<footer class="footer"><div class="wrap footer-inner"><p><strong>TRACE / Privacy Field Lab.</strong> A classroom learning project about location data, ethical technology design, COPPA (United States), and the CCPA (California). Fictional app, fictional route. This site does not request location or use analytics; reflection and peer-test notes stay in this browser.</p><span class="micro">Sources checked October 2026</span></div></footer>
+<script>
+(() => {
+  const settings = ["precise", "background", "retention", "partners"];
+  const riskPoints = { precise: 2, background: 2, retention: 1, partners: 3 };
+  const quiz = [
+    { topic: "LOCATION DATA", question: "A navigation app stores coordinates and the time of each trip. What could that data reveal?", choices: ["Only the user's average travel speed", "Likely home, school or work routines, and visits to particular places", "Nothing once a route is finished"], answer: 1, explain: "Coordinates plus timestamps can map repeated places and patterns. A route log may reveal more than a single location." },
+    { topic: "U.S. FEDERAL LAW · COPPA", question: "A covered service for children under 13 wants to collect precise location that can identify a street and town. What is generally required first?", choices: ["Nothing, if the app promises not to sell the data", "Notice to parents and verifiable parental consent, unless a specific exception applies", "Only a location toggle the child can switch off later"], answer: 1, explain: "The FTC says covered operators generally need to notify parents and obtain verifiable consent before collecting children's personal information, including qualifying geolocation. COPPA has a limited scope and exceptions." },
+    { topic: "ETHICAL DESIGN", question: "Which launch choice best respects users while still offering turn-by-turn directions?", choices: ["Collect location continuously by default and explain it in a long policy", "Collect precise location while navigation is active, explain the purpose, and make optional tracking a real choice", "Keep all route histories forever in case they become useful"], answer: 1, explain: "Purpose limitation, data minimization, clear notice, and meaningful choice are responsible design principles; a feature's usefulness does not justify unrelated collection." },
+    { topic: "CALIFORNIA STATE LAW · CCPA", question: "Which statement about the CCPA is the most accurate?", choices: ["It gives every person worldwide identical rights against every app", "California residents have rights with businesses covered by the law; coverage and exceptions matter", "It only applies to children's location data"], answer: 1, explain: "The California Attorney General describes rights for California residents and notes that the law applies to covered businesses. It is not a universal rule for every business or person." }
+  ];
+  const $ = selector => document.querySelector(selector);
+  let questionIndex = 0;
+  let score = 0;
+  let answered = false;
+
+  function updateReview() {
+    const values = Object.fromEntries(settings.map(id => [id, $(`#${id}`).checked]));
+    const points = settings.reduce((sum, id) => sum + (values[id] ? riskPoints[id] : 0), 0);
+    const labels = [];
+    if (values.precise) labels.push("Exact route coordinates");
+    else labels.push("Approximate or manually entered location");
+    labels.push("Trip timestamps");
+    if (values.background) labels.push("Background location points");
+    labels.push("Origin and destination");
+    if (values.retention) labels.push("90-day route history");
+    if (values.partners) labels.push("Partner receives route-level data");
+    $("#data-pills").replaceChildren(...labels.map(text => {
+      const pill = document.createElement("span");
+      pill.className = "data-pill";
+      pill.textContent = text;
+      return pill;
+    }));
+    const meter = $("#risk-meter");
+    [...meter.children].forEach((segment, index) => segment.classList.toggle("active", index < points));
+    meter.classList.toggle("low", points <= 2);
+    meter.setAttribute("aria-label", `Illustrative data exposure: ${points} of 8`);
+    $("#risk-number").textContent = `${points} / 8 points`;
+    const heading = points >= 6 ? "High exposure: redesign before launch." : points >= 3 ? "Some avoidable exposure remains." : "Lower exposure; keep checking.";
+    $("#risk-status").textContent = heading;
+    const notes = [];
+    if (values.precise) notes.push("Ask for precise location only when navigation is active; tell people why exact location is needed.");
+    else notes.push("Approximate location may not support turn-by-turn directions; explain the tradeoff and ask only when the feature needs more.");
+    if (values.background) notes.push("Background tracking can reveal routines while the app is closed. Make it optional, off by default, and easy to revoke.");
+    if (values.retention) notes.push("Set a short retention period and a clear delete control instead of keeping a full history by default.");
+    if (values.partners) notes.push("Do not share detailed routes for unrelated advertising by default; separate any optional use and explain it plainly.");
+    if (!values.background && !values.retention && !values.partners) notes.push("Review security, access, and deletion too. Fewer data points reduce exposure but do not remove every risk.");
+    $("#recommendations").replaceChildren(...notes.map(text => {
+      const item = document.createElement("li");
+      item.textContent = text;
+      return item;
+    }));
+  }
+  function renderQuestion() {
+    const item = quiz[questionIndex];
+    answered = false;
+    $("#quiz-topic").textContent = item.topic;
+    $("#quiz-question").textContent = item.question;
+    $("#quiz-progress").textContent = `CASE ${questionIndex + 1} / ${quiz.length}`;
+    $("#quiz-feedback").textContent = "Choose one answer to see why it matters.";
+    $("#quiz-score").textContent = "";
+    $("#next-question").disabled = true;
+    $("#next-question").textContent = "Check answer";
+    $("#quiz-options").replaceChildren(...item.choices.map((choice, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "quiz-option";
+      button.dataset.choice = String(index);
+      const letter = document.createElement("span");
+      letter.className = "option-letter";
+      letter.textContent = String.fromCharCode(65 + index);
+      const text = document.createElement("span");
+      text.textContent = choice;
+      button.append(letter, text);
+      button.addEventListener("click", () => answerQuestion(index));
+      return button;
+    }));
+  }
+  function answerQuestion(choice) {
+    if (answered) return;
+    answered = true;
+    const item = quiz[questionIndex];
+    const correct = choice === item.answer;
+    if (correct) score++;
+    for (const button of $("#quiz-options").children) {
+      const selected = Number(button.dataset.choice);
+      button.disabled = true;
+      if (selected === item.answer) button.classList.add("correct");
+      else if (selected === choice) button.classList.add("wrong");
+    }
+    $("#quiz-feedback").textContent = `${correct ? "That's right. " : "Not quite. "}${item.explain}`;
+    $("#next-question").disabled = false;
+    $("#next-question").textContent = questionIndex === quiz.length - 1 ? "See results" : "Next case";
+  }
+  $("#next-question").addEventListener("click", () => {
+    if (!answered) return;
+    if (questionIndex < quiz.length - 1) {
+      questionIndex++;
+      renderQuestion();
+      $("#quiz-question").focus?.();
+      return;
+    }
+    $("#quiz-topic").textContent = "FIELD NOTES COMPLETE";
+    $("#quiz-progress").textContent = "REVIEW FINISHED";
+    $("#quiz-question").textContent = `You got ${score} of ${quiz.length} cases right.`;
+    $("#quiz-options").replaceChildren();
+    $("#quiz-feedback").textContent = score === quiz.length ? "Excellent. You connected location data, ethical choices, and legal scope." : "Revisit the explanations, then try again to strengthen your reasoning.";
+    $("#quiz-score").textContent = "";
+    const button = $("#next-question");
+    button.textContent = "Try again";
+    button.addEventListener("click", restartQuiz, { once: true });
+    answered = false;
+  });
+  function restartQuiz() {
+    questionIndex = 0;
+    score = 0;
+    renderQuestion();
+  }
+  function connectLocalForm(formId, storageKey, statusId, savedMessage) {
+    const form = $(formId);
+    const status = $(statusId);
+    try {
+      const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
+      if (saved) {
+        for (const [name, value] of Object.entries(saved)) {
+          const field = form.elements.namedItem(name);
+          if (field && typeof value === "string") field.value = value;
+        }
+        status.textContent = savedMessage;
+      }
+    } catch {
+      status.textContent = "Browser storage is unavailable; keep this note separately for your assessment.";
+    }
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      const record = Object.fromEntries(new FormData(form).entries());
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(record));
+        status.textContent = savedMessage;
+      } catch {
+        status.textContent = "Browser storage is unavailable; keep this note separately for your assessment.";
+      }
+    });
+  }
+  for (const id of settings) $(`#${id}`).addEventListener("change", updateReview);
+  $("#review-button").addEventListener("click", updateReview);
+  $("#reset-button").addEventListener("click", () => {
+    $("#precise").checked = true;
+    $("#background").checked = false;
+    $("#retention").checked = true;
+    $("#partners").checked = true;
+    updateReview();
+  });
+  connectLocalForm("#reflection-form", "trace-field-note", "#reflection-status", "Field note saved in this browser.");
+  connectLocalForm("#peer-form", "trace-peer-test", "#peer-status", "Peer-test record saved in this browser.");
+  updateReview();
+  renderQuestion();
+})();
+</script>
+</body>
+</html>
