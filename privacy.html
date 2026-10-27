@@ -42,6 +42,14 @@ body{background:var(--paper);color:var(--ink)}
 .law-card p,.law-card ul,.law-caveat{color:#bdcde0}
 .jurisdiction{background:#123a62;color:#bce5ff}
 .source-link{color:#8eb8ff}
+.guide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:24px}
+.guide-item{padding:20px;border:1px solid #25364c;background:#101722}
+.guide-item .micro{color:#8eb8ff}
+.guide-item h3{margin:9px 0 7px;font-size:15px}
+.guide-item p,.guide-item li{color:#bdcde0;font-size:11px}
+.guide-item p{margin-bottom:0}
+.guide-item ul{display:grid;gap:7px;margin:9px 0 0;padding-left:17px}
+.guide-item strong{color:#e7f1ff}
 .quiz-option.correct,.quiz-option.wrong{border-color:#43a9ff;background:#43a9ff20}
 .footer{background:#03060b;color:#c4d5e9}
 .evidence-section{border-top:1px solid #25364c}
@@ -56,14 +64,14 @@ body{background:var(--paper);color:var(--ink)}
 .evidence-form textarea:focus,.evidence-form select:focus{outline:2px solid #8eb8ff;outline-offset:1px}
 .evidence-note,.saved-status{margin:0;color:#9bb0c8;font-size:10px}
 .saved-status{min-height:16px;color:#8eb8ff}
-@media(max-width:700px){.evidence-grid{grid-template-columns:1fr}.evidence-panel{padding:17px}}
+@media(max-width:700px){.evidence-grid,.guide-grid{grid-template-columns:1fr}.evidence-panel{padding:17px}}
 @media(max-width:780px){.review-panel{min-height:360px}}
 </style>
 </head>
 <body>
 <header class="wrap topbar">
   <a class="wordmark" href="#top" aria-label="TRACE privacy field lab home"><span class="wordmark-icon" aria-hidden="true">T</span><span>TRACE <span style="font-weight:500;color:#68736c">/ FIELD LAB 01</span></span></a>
-  <nav class="topnav" aria-label="Main navigation"><a href="#lab">Data lab</a><a href="#law">Law & rights</a><a href="#quiz">Knowledge check</a><a href="#reflection">Reflection</a><a href="#peer">Peer test</a></nav>
+  <nav class="topnav" aria-label="Main navigation"><a href="#lab">Data lab</a><a href="#field-guide">Field guide</a><a href="#law">Law & rights</a><a href="#quiz">Knowledge check</a><a href="#reflection">Reflection</a><a href="#peer">Peer test</a></nav>
 </header>
 <main id="top">
   <section class="hero">
@@ -116,9 +124,21 @@ body{background:var(--paper);color:var(--ink)}
     <div class="ethics-band"><div><h3>Ethics asks more than “Can we?”</h3><p>Would a reasonable user expect this collection? Is it needed for the feature? Can people understand, refuse, and change their choice?</p></div><div><h3>Start with less</h3><p>Collect only what the service needs, limit access and retention, explain the purpose, and give people a real choice before optional tracking or sharing.</p></div></div>
   </section>
 
+  <section class="wrap section" id="field-guide">
+    <div class="section-label">02 / Read the data trail</div>
+    <h2>One permission can create many signals.</h2>
+    <p class="section-intro">The exact data depends on the app, device, permissions, and settings. A location feature does not automatically collect every item below; check the app's notice and controls.</p>
+    <div class="guide-grid">
+      <article class="guide-item"><span class="micro">01 / A location fix</span><h3>Where and when</h3><p>A location fix may pair coordinates with a timestamp and an estimate of accuracy. Repeated fixes can show a route, speed, stops, and trip start or end points.</p></article>
+      <article class="guide-item"><span class="micro">02 / Context</span><h3>What patterns suggest</h3><p>Repeated visits can suggest a home, school, workplace, routine, or sensitive destination. These are inferences, not proof; people deserve a chance to understand and challenge consequential profiles.</p></article>
+      <article class="guide-item"><span class="micro">03 / Reduce exposure</span><h3>A practical privacy check</h3><ul><li>Allow location only while using navigation when that meets your needs.</li><li>Turn off background access and precise location when they are not needed.</li><li>Review saved trips, delete old history, and check retention and sharing settings.</li><li>Read the notice before installing; avoid sharing an account or route more broadly than needed.</li></ul></article>
+      <article class="guide-item"><span class="micro">04 / Contracts are not consent</span><h3>What an NDA does</h3><p>A non-disclosure agreement is a contract that can restrict how parties use or disclose specified confidential information. <strong>It does not itself make tracking ethical, replace a privacy notice or required consent, or cancel legal rights.</strong> Check who is bound, what is covered, and the contract's limits.</p></article>
+    </div>
+  </section>
+
   <section class="laws" id="law">
     <div class="wrap section">
-      <div class="section-label">02 / Law is a floor, not the whole design</div>
+      <div class="section-label">03 / Law is a floor, not the whole design</div>
       <h2>Two rules. Two different scopes.</h2>
       <p class="section-intro">A law can require specific protections in a specific jurisdiction. It does not answer every ethical question about an app's design.</p>
       <div class="law-grid">
@@ -143,13 +163,13 @@ body{background:var(--paper);color:var(--ink)}
 
   <section class="quiz" id="quiz">
     <div class="wrap section quiz-layout">
-      <div class="quiz-side"><div><div class="section-label">03 / Check your reasoning</div><h2>Make the call.</h2><p class="section-intro">Four short cases. Choose an answer, read the feedback, and see what you can explain.</p></div><span class="quiz-progress" id="quiz-progress">CASE 1 / 4</span></div>
+      <div class="quiz-side"><div><div class="section-label">04 / Check your reasoning</div><h2>Make the call.</h2><p class="section-intro">Six short cases. Choose an answer, read the feedback, and see what you can explain.</p></div><span class="quiz-progress" id="quiz-progress">CASE 1 / 6</span></div>
       <div class="quiz-card" aria-live="polite"><p class="section-label" id="quiz-topic">LOCATION DATA</p><h3 class="quiz-question" id="quiz-question"></h3><div class="quiz-options" id="quiz-options"></div><p class="quiz-feedback" id="quiz-feedback" aria-live="polite"></p><div class="quiz-controls"><span class="quiz-final" id="quiz-score"></span><button class="primary-button" id="next-question" type="button" disabled>Check answer</button></div></div>
     </div>
   </section>
 
   <section class="wrap section evidence-section" id="reflection">
-    <div class="section-label">04 / Show your reasoning</div>
+    <div class="section-label">05 / Show your reasoning</div>
     <h2>Write your field note.</h2>
     <p class="section-intro">Use your own words to connect one interaction in the lab to the privacy risk, the ethical choice, and a revision you would make.</p>
     <form class="evidence-form" id="reflection-form">
@@ -164,7 +184,7 @@ body{background:var(--paper);color:var(--ink)}
 
   <section class="laws" id="peer">
     <div class="wrap section evidence-section">
-      <div class="section-label">05 / Test and improve</div>
+      <div class="section-label">06 / Test and improve</div>
       <h2>Run a peer test.</h2>
       <p class="section-intro">Ask a classmate to try the data lab and one quiz question without coaching. Record one piece of feedback and the improvement you make because of it. Do not record their name.</p>
       <form class="evidence-form" id="peer-form">
@@ -187,7 +207,9 @@ body{background:var(--paper);color:var(--ink)}
     { topic: "LOCATION DATA", question: "A navigation app stores coordinates and the time of each trip. What could that data reveal?", choices: ["Only the user's average travel speed", "Likely home, school or work routines, and visits to particular places", "Nothing once a route is finished"], answer: 1, explain: "Coordinates plus timestamps can map repeated places and patterns. A route log may reveal more than a single location." },
     { topic: "U.S. FEDERAL LAW · COPPA", question: "A covered service for children under 13 wants to collect precise location that can identify a street and town. What is generally required first?", choices: ["Nothing, if the app promises not to sell the data", "Notice to parents and verifiable parental consent, unless a specific exception applies", "Only a location toggle the child can switch off later"], answer: 1, explain: "The FTC says covered operators generally need to notify parents and obtain verifiable consent before collecting children's personal information, including qualifying geolocation. COPPA has a limited scope and exceptions." },
     { topic: "ETHICAL DESIGN", question: "Which launch choice best respects users while still offering turn-by-turn directions?", choices: ["Collect location continuously by default and explain it in a long policy", "Collect precise location while navigation is active, explain the purpose, and make optional tracking a real choice", "Keep all route histories forever in case they become useful"], answer: 1, explain: "Purpose limitation, data minimization, clear notice, and meaningful choice are responsible design principles; a feature's usefulness does not justify unrelated collection." },
-    { topic: "CALIFORNIA STATE LAW · CCPA", question: "Which statement about the CCPA is the most accurate?", choices: ["It gives every person worldwide identical rights against every app", "California residents have rights with businesses covered by the law; coverage and exceptions matter", "It only applies to children's location data"], answer: 1, explain: "The California Attorney General describes rights for California residents and notes that the law applies to covered businesses. It is not a universal rule for every business or person." }
+    { topic: "CALIFORNIA STATE LAW · CCPA", question: "Which statement about the CCPA is the most accurate?", choices: ["It gives every person worldwide identical rights against every app", "California residents have rights with businesses covered by the law; coverage and exceptions matter", "It only applies to children's location data"], answer: 1, explain: "The California Attorney General describes rights for California residents and notes that the law applies to covered businesses. It is not a universal rule for every business or person." },
+    { topic: "CONTRACTS · NDA", question: "A developer signs an NDA before a product demo. What does the agreement generally do?", choices: ["It can limit how parties disclose specified confidential information, according to its terms", "It gives the developer permission to collect a user's location without notice", "It overrides privacy laws whenever both companies agree"], answer: 0, explain: "An NDA is a contract about confidential information. It does not replace privacy law, make data collection ethical, or create user consent." },
+    { topic: "PRACTICAL PRIVACY", question: "You want turn-by-turn directions but do not want the app tracking you after the trip. Which setting is the best first step?", choices: ["Allow location all the time and rely on the app's default retention", "Allow location only while using the app, and turn off background access if it is not needed", "Share your account with fewer people but leave background tracking on"], answer: 1, explain: "Limiting access to the time the feature is used reduces unnecessary collection. Also review saved history, sharing, and deletion controls." }
   ];
   const $ = selector => document.querySelector(selector);
   let questionIndex = 0;
