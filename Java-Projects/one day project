@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#121214">
+  <title>Circuit Breaker | Logic Arcade</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #121214;
+      --panel: #191a1d;
+      --muted: #858a92;
+      --text: #eef0f3;
+      --cyan: #00f0ff;
+      --gold: #ffcc00;
+      --red: #ff5265;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      min-height: 100vh;
+      background: radial-gradient(ellipse at 50% -15%, rgba(0,240,255,.1), transparent 48%), radial-gradient(ellipse at 100% 100%, rgba(255,204,0,.045), transparent 35%), var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    button { font: inherit; }
+    .shell { width: min(1120px, calc(100% - 40px)); margin: 0 auto; padding: 30px 0 36px; }
+    .topline, .brand, .dashboard, .score-block, .health-block, .timer-heading, .section-heading, .inventory, .gate-button, .status-row, .core-caption { display: flex; align-items: center; }
+    .topline { justify-content: space-between; gap: 24px; margin-bottom: 25px; }
+    .brand { gap: 13px; }
+    .brand-mark { display: grid; width: 42px; aspect-ratio: 1; place-items: center; border: 1px solid rgba(0,240,255,.45); background: rgba(0,240,255,.08); color: var(--cyan); font-size: 22px; font-weight: 800; text-shadow: 0 0 14px rgba(0,240,255,.75); box-shadow: inset 0 0 18px rgba(0,240,255,.08), 0 0 18px rgba(0,240,255,.08); }
+    h1 { margin: 0; font-size: 20px; line-height: 1.15; letter-spacing: .08em; text-transform: uppercase; }
+    .eyebrow, .label, .section-kicker, .node-caption, .core-caption { color: var(--muted); font-size: 10px; font-weight: 750; letter-spacing: .16em; text-transform: uppercase; }
+    .eyebrow { margin-top: 5px; }
+    .dashboard { gap: 10px; }
+    .dash-cell { min-width: 106px; padding: 9px 13px; border: 1px solid #2c2e33; background: rgba(25,26,29,.9); }
+    .score-block, .health-block { justify-content: space-between; gap: 13px; }
+    .dash-value { font-size: 18px; font-variant-numeric: tabular-nums; font-weight: 780; }
+    #score { color: var(--gold); text-shadow: 0 0 12px rgba(255,204,0,.26); }
+    #hearts { display: flex; gap: 3px; color: var(--red); }
+    #hearts svg { width: 16px; height: 16px; filter: drop-shadow(0 0 5px rgba(255,82,101,.45)); }
+    #hearts .lost { color: #45464b; filter: none; }
+    .timer-cell { width: 184px; }
+    .timer-heading { justify-content: space-between; margin-bottom: 8px; }
+    #countdown { color: var(--cyan); font-size: 13px; font-variant-numeric: tabular-nums; font-weight: 750; }
+    .timer-track { height: 5px; overflow: hidden; background: #34363b; }
+    #timer-bar { width: 100%; height: 100%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); transition: width 60ms linear; }
+    .game-panel { border: 1px solid #2b2d31; background: rgba(22,23,26,.93); }
+    .section-heading { justify-content: space-between; min-height: 51px; padding: 0 18px; border-bottom: 1px solid #2b2d31; }
+    .section-heading .left { display: flex; align-items: baseline; gap: 12px; }
+    .section-title { color: #d9dce1; font-size: 12px; font-weight: 760; letter-spacing: .08em; text-transform: uppercase; }
+    .section-kicker { font-size: 9px; }
+    .legend { display: flex; align-items: center; gap: 15px; color: var(--muted); font-size: 10px; }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .legend-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 8px var(--gold); }
+    .legend-dot.off { background: #54565b; box-shadow: none; }
+    .board { position: relative; height: clamp(330px, 43vw, 450px); min-height: 330px; overflow: hidden; background-image: linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px); background-size: 28px 28px; isolation: isolate; }
+    .wires { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; overflow: visible; }
+    .wire { fill: none; stroke: #34363b; stroke-width: 4; stroke-linecap: round; transition: stroke .2s, filter .2s; }
+    .wire.on { stroke: var(--gold); filter: drop-shadow(0 0 5px rgba(255,204,0,.76)); }
+    .wire.surging { stroke-dasharray: 11 12; animation: current-flow .55s linear infinite; }
+    @keyframes current-flow { to { stroke-dashoffset: -46; } }
+    .input-node, .gate-node, .core-node { position: absolute; transform: translate(-50%,-50%); }
+    .input-node { left: 13.5%; display: flex; align-items: center; gap: 9px; }
+    .input-a { top: 20.5%; } .input-b { top: 50%; } .input-c { top: 79.5%; }
+    .input-name { width: 20px; color: #aeb2b9; font-size: 10px; font-weight: 800; letter-spacing: .12em; }
+    .input-value { display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid #4a4c51; background: #222327; color: #737780; font-size: 18px; font-weight: 850; transition: color .18s, border-color .18s, box-shadow .18s; }
+    .input-value.on { border-color: var(--gold); background: rgba(255,204,0,.1); color: var(--gold); box-shadow: 0 0 16px rgba(255,204,0,.22), inset 0 0 12px rgba(255,204,0,.08); }
+    .gate-node { width: clamp(92px, 12vw, 124px); }
+    .gate-top { left: 38%; top: 28%; } .gate-bottom { left: 38%; top: 72%; } .gate-final { left: 68%; top: 50%; }
+    .node-caption { display: block; margin-bottom: 6px; text-align: center; font-size: 9px; }
+    .gate-button { width: 100%; min-height: 70px; flex-direction: column; justify-content: center; gap: 3px; border: 1px solid #3b3e44; background: linear-gradient(145deg,#222429,#191a1e); color: #dce0e5; cursor: pointer; box-shadow: 0 7px 18px rgba(0,0,0,.25); transition: border-color .16s, background .16s, transform .16s, box-shadow .16s; }
+    .gate-button:hover, .gate-button:focus-visible { border-color: var(--cyan); outline: none; box-shadow: 0 0 16px rgba(0,240,255,.18); }
+    .gate-button:active { transform: scale(.97); }
+    .gate-symbol { color: var(--cyan); font-size: 17px; font-weight: 850; line-height: 1; text-shadow: 0 0 9px rgba(0,240,255,.36); }
+    .gate-result { color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .09em; }
+    .gate-button.empty .gate-symbol { color: #777b83; font-size: 19px; }
+    .gate-button.empty .gate-result { color: #6c7077; }
+    .gate-button.has-one .gate-result { color: var(--gold); text-shadow: 0 0 9px rgba(255,204,0,.32); }
+    .core-node { left: 89%; top: 50%; text-align: center; }
+    .core-shell { display: grid; width: clamp(66px,9vw,86px); aspect-ratio: 1; place-items: center; border: 1px solid #50535a; background: radial-gradient(circle,#282a2e,#17181b 72%); color: #777c84; font-size: 23px; font-weight: 850; transition: color .2s, border-color .2s, box-shadow .2s; }
+    .core-node.charged .core-shell { border-color: var(--gold); color: var(--gold); box-shadow: 0 0 25px rgba(255,204,0,.35), inset 0 0 22px rgba(255,204,0,.16); text-shadow: 0 0 13px var(--gold); }
+    .core-node.surge .core-shell { animation: core-hit .7s ease-out; }
+    @keyframes core-hit { 45% { transform: scale(1.16); box-shadow: 0 0 35px rgba(0,240,255,.7); } }
+    .core-caption { justify-content: center; gap: 5px; margin-top: 8px; font-size: 9px; white-space: nowrap; }
+    .core-caption strong { color: #d3d6db; font-size: 9px; }
+    .status-row { justify-content: space-between; gap: 14px; min-height: 43px; padding: 0 18px; border-top: 1px solid #2b2d31; color: var(--muted); font-size: 11px; }
+    #status-message { color: #bfc3c9; }
+    #status-message strong { color: var(--cyan); font-weight: 750; }
+    .status-hint { color: #747880; text-align: right; }
+    .inventory-section { margin-top: 17px; padding: 16px 18px 17px; border: 1px solid #2b2d31; background: rgba(22,23,26,.84); }
+    .inventory-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+    .inventory-heading h2 { margin: 0; color: #d9dce1; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+    .inventory-heading p { margin: 0; color: var(--muted); font-size: 10px; }
+    .inventory { gap: 8px; }
+    .inventory button { display: flex; min-width: 96px; flex: 1; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid #36383e; background: #1c1d21; color: #e2e4e8; text-align: left; cursor: pointer; transition: border-color .15s, background .15s, box-shadow .15s; }
+    .inventory button:hover, .inventory button:focus-visible { border-color: #777b83; outline: none; }
+    .inventory button.selected { border-color: var(--cyan); background: rgba(0,240,255,.07); box-shadow: inset 0 -2px var(--cyan); }
+    .gate-code { display: grid; width: 27px; height: 27px; flex: 0 0 27px; place-items: center; border: 1px solid #43464c; color: var(--cyan); font-size: 10px; font-weight: 850; }
+    .inventory button.selected .gate-code { border-color: rgba(0,240,255,.55); }
+    .gate-copy { min-width: 0; }
+    .gate-name { display: block; font-size: 11px; font-weight: 780; }
+    .gate-rule { display: block; margin-top: 2px; color: var(--muted); font-size: 9px; white-space: nowrap; }
+    .footer-note { margin: 12px 0 0; color: #777b82; font-size: 10px; line-height: 1.5; }
+    kbd { padding: 1px 5px; border: 1px solid #44464c; color: #b7bbc2; font: inherit; }
+    .overlay { position: fixed; z-index: 5; inset: 0; display: grid; place-items: center; padding: 20px; background: rgba(7,8,10,.84); backdrop-filter: blur(5px); }
+    .overlay[hidden] { display: none; }
+    .game-over { width: min(430px,100%); padding: 36px 28px 30px; border: 1px solid rgba(255,82,101,.65); background: linear-gradient(155deg,#242024,#151619 68%); text-align: center; box-shadow: 0 0 60px rgba(255,40,75,.13); animation: reveal .35s ease-out both; }
+    @keyframes reveal { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: none; } }
+    .warning-mark { color: var(--red); font-size: 34px; line-height: 1; text-shadow: 0 0 20px rgba(255,82,101,.7); }
+    .game-over h2 { margin: 13px 0 8px; color: #ff6677; font-size: clamp(22px,6vw,30px); letter-spacing: .1em; text-shadow: 0 0 18px rgba(255,82,101,.3); }
+    .game-over p { margin: 0 0 22px; color: #b4b7be; font-size: 13px; }
+    .restart-button { padding: 11px 19px; border: 1px solid var(--cyan); background: rgba(0,240,255,.1); color: var(--cyan); font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; cursor: pointer; }
+    .restart-button:hover, .restart-button:focus-visible { outline: none; background: rgba(0,240,255,.2); box-shadow: 0 0 18px rgba(0,240,255,.25); }
+    @media (max-width: 700px) {
+      .shell { width: min(100% - 24px,560px); padding-top: 18px; }
+      .topline { align-items: flex-start; flex-direction: column; gap: 15px; margin-bottom: 16px; }
+      .dashboard { width: 100%; }
+      .dash-cell { min-width: 0; flex: 1; padding: 8px 10px; }
+      .timer-cell { flex: 1.4; }
+      .legend { gap: 9px; font-size: 9px; }
+      .board { height: 370px; min-height: 370px; }
+      .input-node { left: 13%; gap: 5px; }
+      .input-name { width: 14px; font-size: 9px; }
+      .input-value { width: 31px; height: 34px; font-size: 16px; }
+      .gate-top, .gate-bottom { left: 38%; }
+      .gate-final { left: 69%; }
+      .gate-node { width: clamp(82px,23vw,110px); }
+      .gate-button { min-height: 62px; }
+      .core-node { left: 91%; }
+      .core-shell { width: 56px; }
+      .section-heading { padding: 0 12px; }
+      .section-heading .left { gap: 7px; }
+      .section-kicker { display: none; }
+      .status-row { align-items: flex-start; flex-direction: column; justify-content: center; gap: 5px; padding: 9px 12px; }
+      .status-hint { text-align: left; }
+      .inventory-section { padding: 14px 12px; }
+      .inventory { display: grid; grid-template-columns: 1fr 1fr; }
+      .inventory button { min-width: 0; }
+      .inventory-heading { align-items: flex-start; flex-direction: column; gap: 4px; }
+    }
+    @media (max-width: 390px) {
+      .dashboard { gap: 6px; }
+      .dash-cell { padding: 7px; }
+      .label { font-size: 9px; letter-spacing: .1em; }
+      .dash-value { font-size: 16px; }
+      .timer-cell { width: auto; }
+      .board { height: 345px; min-height: 345px; }
+      .gate-node { width: 80px; }
+      .gate-final { left: 68%; }
+      .core-node { left: 91%; }
+      .core-shell { width: 49px; }
+      .gate-code { width: 24px; height: 24px; flex-basis: 24px; }
+      .inventory button { gap: 7px; padding: 9px 8px; }
+      .gate-rule { font-size: 8px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topline">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">ϟ</div>
+        <div><h1>Circuit Breaker</h1><div class="eyebrow">Logic gate arcade</div></div>
+      </div>
+      <div class="dashboard" aria-label="Game dashboard">
+        <div class="dash-cell score-block"><span class="label">Score</span><span class="dash-value" id="score">0000</span></div>
+        <div class="dash-cell health-block"><span class="label">HP</span><span class="dash-value" id="hearts" aria-label="3 hearts"></span></div>
+        <div class="dash-cell timer-cell">
+          <div class="timer-heading"><span class="label">Power surge</span><span id="countdown">4.0s</span></div>
+          <div class="timer-track" role="progressbar" aria-label="Time until next power surge" aria-valuemin="0" aria-valuemax="4" aria-valuenow="4"><div id="timer-bar"></div></div>
+        </div>
+      </div>
+    </header>
+
+    <section class="game-panel" aria-label="Circuit board">
+      <div class="section-heading">
+        <div class="left"><span class="section-title">Power grid</span><span class="section-kicker">Route the current to the core</span></div>
+        <div class="legend" aria-label="Wire legend"><span><i class="legend-dot"></i> 1 / ON</span><span><i class="legend-dot off"></i> 0 / OFF</span></div>
+      </div>
+      <div class="board" id="board">
+        <svg class="wires" viewBox="0 0 1000 440" preserveAspectRatio="none" aria-hidden="true">
+          <path class="wire" id="wire-a-top" d="M 145 90 C 235 90, 260 124, 350 124" />
+          <path class="wire" id="wire-b-top" d="M 145 220 C 245 220, 260 124, 350 124" />
+          <path class="wire" id="wire-b-bottom" d="M 145 220 C 245 220, 260 316, 350 316" />
+          <path class="wire" id="wire-c-bottom" d="M 145 350 C 235 350, 260 316, 350 316" />
+          <path class="wire" id="wire-top-final" d="M 430 124 C 530 124, 525 220, 650 220" />
+          <path class="wire" id="wire-bottom-final" d="M 430 316 C 530 316, 525 220, 650 220" />
+          <path class="wire" id="wire-core" d="M 730 220 C 790 220, 810 220, 850 220" />
+        </svg>
+        <div class="input-node input-a"><span class="input-name">A</span><span class="input-value" id="input-a">0</span></div>
+        <div class="input-node input-b"><span class="input-name">B</span><span class="input-value" id="input-b">0</span></div>
+        <div class="input-node input-c"><span class="input-name">C</span><span class="input-value" id="input-c">0</span></div>
+        <div class="gate-node gate-top"><span class="node-caption">Gate 01 · A + B</span><button class="gate-button empty" id="gate-top" data-node="top" aria-label="Place a gate at Gate 01, inputs A and B"><span class="gate-symbol">+</span><span class="gate-result">PLACE GATE</span></button></div>
+        <div class="gate-node gate-bottom"><span class="node-caption">Gate 02 · B + C</span><button class="gate-button empty" id="gate-bottom" data-node="bottom" aria-label="Place a gate at Gate 02, inputs B and C"><span class="gate-symbol">+</span><span class="gate-result">PLACE GATE</span></button></div>
+        <div class="gate-node gate-final"><span class="node-caption">Gate 03 · 01 + 02</span><button class="gate-button empty" id="gate-final" data-node="final" aria-label="Place a gate at Gate 03, inputs from Gate 01 and Gate 02"><span class="gate-symbol">+</span><span class="gate-result">PLACE GATE</span></button></div>
+        <div class="core-node" id="core-node"><div class="core-shell" id="core-value">?</div><div class="core-caption"><strong>POWER</strong> CORE</div></div>
+      </div>
+      <div class="status-row"><span id="status-message" aria-live="polite">Choose a gate, then install it on the grid.</span><span class="status-hint">A gate can be replaced at any time.</span></div>
+    </section>
+
+    <section class="inventory-section" aria-label="Gate inventory">
+      <div class="inventory-heading"><h2>Select a logic gate</h2><p>Choose a gate, then click any grid node.</p></div>
+      <div class="inventory" role="group" aria-label="Available logic gates">
+        <button type="button" data-gate="AND" aria-pressed="false" title="AND: outputs 1 only when both inputs are 1"><span class="gate-code">&amp;</span><span class="gate-copy"><span class="gate-name">AND</span><span class="gate-rule">Both must be 1</span></span></button>
+        <button type="button" data-gate="OR" aria-pressed="false" title="OR: outputs 1 when at least one input is 1"><span class="gate-code">≥1</span><span class="gate-copy"><span class="gate-name">OR</span><span class="gate-rule">At least one is 1</span></span></button>
+        <button type="button" data-gate="NOT" aria-pressed="false" title="NOT: inverts the first input"><span class="gate-code">¬</span><span class="gate-copy"><span class="gate-name">NOT</span><span class="gate-rule">Flip the first input</span></span></button>
+        <button type="button" data-gate="XOR" aria-pressed="false" title="XOR: outputs 1 only when inputs differ"><span class="gate-code">≠</span><span class="gate-copy"><span class="gate-name">XOR</span><span class="gate-rule">Inputs must differ</span></span></button>
+      </div>
+      <p class="footer-note">NOT reads the first input shown at its node. Click a filled node to swap its gate, or focus it and press <kbd>Delete</kbd> to clear it.</p>
+    </section>
+  </main>
+
+  <div class="overlay" id="game-over" hidden>
+    <section class="game-over" role="dialog" aria-modal="true" aria-labelledby="game-over-title">
+      <div class="warning-mark" aria-hidden="true">!</div>
+      <h2 id="game-over-title">SYSTEM MELTDOWN</h2>
+      <p>The Power Core went dark. Final score: <strong id="final-score">0</strong></p>
+      <button class="restart-button" id="restart" type="button">Restart system</button>
+    </section>
+  </div>
+
+  <script>
+    (() => {
+      const PULSE_MS = 4000;
+      const SURGE_MS = 700;
+      const gateSymbols = { AND: "&", OR: "≥1", NOT: "¬", XOR: "≠" };
+      const nodes = { top: null, bottom: null, final: null };
+      const inputs = { a: 1, b: 0, c: 1 };
+      const outputs = { top: 0, bottom: 0, final: 0 };
+      const nodeInputs = {
+        top: () => [inputs.a, inputs.b],
+        bottom: () => [inputs.b, inputs.c],
+        final: () => [outputs.top, outputs.bottom]
+      };
+      const wires = [
+        ["wire-a-top", () => inputs.a], ["wire-b-top", () => inputs.b],
+        ["wire-b-bottom", () => inputs.b], ["wire-c-bottom", () => inputs.c],
+        ["wire-top-final", () => outputs.top], ["wire-bottom-final", () => outputs.bottom],
+        ["wire-core", () => outputs.final]
+      ];
+      const scoreElement = document.getElementById("score");
+      const heartsElement = document.getElementById("hearts");
+      const countdownElement = document.getElementById("countdown");
+      const timerBar = document.getElementById("timer-bar");
+      const timerTrack = timerBar.parentElement;
+      const statusMessage = document.getElementById("status-message");
+      const coreNode = document.getElementById("core-node");
+      const coreValue = document.getElementById("core-value");
+      const gameOver = document.getElementById("game-over");
+      const gateButtons = [...document.querySelectorAll(".gate-button")];
+      const inventoryButtons = [...document.querySelectorAll("[data-gate]")];
+      const heartIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 21s-8.4-5.4-10.3-10C-.6 4.4 6.6.9 12 6.2 17.4.9 24.6 4.4 22.3 11 20.4 15.6 12 21 12 21Z"/></svg>';
+      let selectedGate = "AND";
+      let score = 0;
+      let health = 3;
+      let pulseStartedAt = performance.now();
+      let pulseInProgress = false;
+      let ended = false;
+      let pulseInterval;
+
+      function evaluateGate(gate, left, right) {
+        if (gate === "NOT") return left ? 0 : 1;
+        if (gate === "AND") return left && right ? 1 : 0;
+        if (gate === "OR") return left || right ? 1 : 0;
+        if (gate === "XOR") return left !== right ? 1 : 0;
+        return 0;
+      }
+
+      function recompute() {
+        outputs.top = nodes.top ? evaluateGate(nodes.top, ...nodeInputs.top()) : 0;
+        outputs.bottom = nodes.bottom ? evaluateGate(nodes.bottom, ...nodeInputs.bottom()) : 0;
+        outputs.final = nodes.final ? evaluateGate(nodes.final, ...nodeInputs.final()) : 0;
+      }
+
+      function renderInputs() {
+        for (const key of ["a", "b", "c"]) {
+          const element = document.getElementById(`input-${key}`);
+          element.textContent = inputs[key];
+          element.classList.toggle("on", inputs[key] === 1);
+          element.setAttribute("aria-label", `Input ${key.toUpperCase()}: ${inputs[key]}`);
+        }
+      }
+
+      function renderGates() {
+        for (const [name, gate] of Object.entries(nodes)) {
+          const button = document.getElementById(`gate-${name}`);
+          const labels = { top: "Gate 01, inputs A and B", bottom: "Gate 02, inputs B and C", final: "Gate 03, inputs from Gate 01 and Gate 02" };
+          button.classList.toggle("empty", !gate);
+          button.classList.toggle("has-one", Boolean(gate) && outputs[name] === 1);
+          button.querySelector(".gate-symbol").textContent = gate ? gateSymbols[gate] : "+";
+          button.querySelector(".gate-result").textContent = gate ? `${gate}  ·  ${outputs[name]}` : "PLACE GATE";
+          button.setAttribute("aria-label", `${labels[name]}${gate ? `, ${gate} gate, output ${outputs[name]}` : ", empty"}`);
+        }
+      }
+
+      function renderWires() {
+        for (const [id, readValue] of wires) {
+          const wire = document.getElementById(id);
+          wire.classList.toggle("on", readValue() === 1);
+          wire.classList.toggle("surging", pulseInProgress && readValue() === 1);
+        }
+        coreValue.textContent = outputs.final;
+        coreNode.classList.toggle("charged", outputs.final === 1);
+      }
+
+      function render() {
+        recompute();
+        renderInputs();
+        renderGates();
+        renderWires();
+      }
+
+      function renderHealth() {
+        heartsElement.innerHTML = Array.from({ length: 3 }, (_, index) => `<span class="${index >= health ? "lost" : ""}">${heartIcon}</span>`).join("");
+        heartsElement.setAttribute("aria-label", `${health} ${health === 1 ? "heart" : "hearts"}`);
+      }
+
+      function selectGate(gate) {
+        selectedGate = gate;
+        for (const button of inventoryButtons) {
+          const isSelected = button.dataset.gate === gate;
+          button.classList.toggle("selected", isSelected);
+          button.setAttribute("aria-pressed", String(isSelected));
+        }
+        statusMessage.innerHTML = `Selected <strong>${gate}</strong>. Click a grid node to install it.`;
+      }
+
+      function clearNode(button) {
+        const node = button.dataset.node;
+        nodes[node] = null;
+        render();
+        statusMessage.textContent = `Gate ${node === "top" ? "01" : node === "bottom" ? "02" : "03"} cleared.`;
+      }
+
+      function chooseRandomInputs() {
+        const previous = `${inputs.a}${inputs.b}${inputs.c}`;
+        let next;
+        do {
+          next = `${Math.round(Math.random())}${Math.round(Math.random())}${Math.round(Math.random())}`;
+        } while (next === previous);
+        [inputs.a, inputs.b, inputs.c] = next.split("").map(Number);
+      }
+
+      function finishSurge() {
+        pulseInProgress = false;
+        coreNode.classList.remove("surge");
+        if (outputs.final === 1) {
+          score += 100;
+          scoreElement.textContent = String(score).padStart(4, "0");
+          statusMessage.innerHTML = '<strong>CORE CHARGED</strong> +100 points. Incoming values shifting...';
+        } else {
+          health -= 1;
+          renderHealth();
+          statusMessage.textContent = "CORE UNPOWERED. One heart lost. Incoming values shifting...";
+          if (health <= 0) {
+            ended = true;
+            document.getElementById("final-score").textContent = score;
+            gameOver.hidden = false;
+            document.getElementById("restart").focus();
+            return;
+          }
+        }
+        chooseRandomInputs();
+        render();
+        pulseStartedAt = performance.now();
+      }
+
+      function startSurge() {
+        if (pulseInProgress || ended) return;
+        pulseInProgress = true;
+        renderWires();
+        coreNode.classList.add("surge");
+        statusMessage.innerHTML = '<strong>POWER SURGE</strong> Current is traveling to the core...';
+        window.setTimeout(finishSurge, SURGE_MS);
+      }
+
+      function updateTimer() {
+        if (ended || pulseInProgress) return;
+        const remaining = Math.max(0, PULSE_MS - (performance.now() - pulseStartedAt));
+        timerBar.style.width = `${remaining / PULSE_MS * 100}%`;
+        countdownElement.textContent = `${(remaining / 1000).toFixed(1)}s`;
+        timerTrack.setAttribute("aria-valuenow", (remaining / 1000).toFixed(1));
+        if (remaining <= 0) startSurge();
+      }
+
+      for (const button of inventoryButtons) button.addEventListener("click", () => selectGate(button.dataset.gate));
+      for (const button of gateButtons) {
+        button.addEventListener("click", () => {
+          if (ended || pulseInProgress) return;
+          nodes[button.dataset.node] = selectedGate;
+          render();
+          statusMessage.innerHTML = `<strong>${selectedGate}</strong> gate installed. Circuit recalculated.`;
+        });
+        button.addEventListener("keydown", event => {
+          if (event.key === "Delete" || event.key === "Backspace") {
+            event.preventDefault();
+            if (!ended && !pulseInProgress) clearNode(button);
+          }
+        });
+      }
+
+      document.getElementById("restart").addEventListener("click", () => {
+        window.clearInterval(pulseInterval);
+        nodes.top = null;
+        nodes.bottom = null;
+        nodes.final = null;
+        inputs.a = 1; inputs.b = 0; inputs.c = 1;
+        score = 0; health = 3; ended = false; pulseInProgress = false;
+        scoreElement.textContent = "0000";
+        gameOver.hidden = true;
+        renderHealth();
+        render();
+        selectGate("AND");
+        pulseStartedAt = performance.now();
+        pulseInterval = window.setInterval(updateTimer, 50);
+        document.querySelector("[data-gate='AND']").focus();
+      });
+
+      renderHealth();
+      selectGate(selectedGate);
+      render();
+      pulseInterval = window.setInterval(updateTimer, 50);
+    })();
+  </script>
+</body>
+</html>

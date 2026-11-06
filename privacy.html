@@ -78,7 +78,7 @@ body{background:var(--paper);color:var(--ink)}
 <body>
 <header class="wrap topbar">
   <a class="wordmark" href="#top" aria-label="TRACE privacy field lab home"><span class="wordmark-icon" aria-hidden="true">T</span><span>TRACE <span style="font-weight:500;color:#68736c">/ FIELD LAB 01</span></span></a>
-  <nav class="topnav" aria-label="Main navigation"><a href="#lab">Data lab</a><a href="#field-guide">Field guide</a><a href="#law">Law & rights</a><a href="#privacy-check">Privacy check</a><a href="#quiz">Knowledge check</a><a href="#reflection">Reflection</a></nav>
+  <nav class="topnav" aria-label="Main navigation"><a href="#lab">Data lab</a><a href="#field-guide">Field guide</a><a href="#law">Law & rights</a><a href="#privacy-check">Privacy check</a><a href="#quiz">Knowledge check</a><a href="#more-info">More info</a></nav>
 </header>
 <main id="top">
   <section class="hero">
@@ -102,34 +102,6 @@ body{background:var(--paper);color:var(--ink)}
     </div>
   </section>
   <div class="wrap meta-strip" aria-label="Learning goals"><span>01 / Notice the data</span><span>02 / Make an ethical choice</span><span>03 / Check the law</span></div>
-
-  <section class="wrap section" id="lab">
-    <div class="section-label">01 / Interactive design review</div>
-    <h2>You're reviewing a navigation app before launch.</h2>
-    <p class="section-intro">Waypoint needs location to guide a driver. Its product team proposes the settings below. Toggle them, inspect the data footprint, and run an ethics review. This is a learning simulation, not a legal compliance score.</p>
-    <div class="lab-shell">
-      <div class="control-panel">
-        <div class="panel-heading"><h3>Waypoint's proposed settings</h3><span class="case-tag">fictional app</span></div>
-        <p class="case-copy">Choose what the app collects, how long it keeps the trail, and whether it shares it.</p>
-        <div class="toggle-list">
-          <label class="toggle-row" for="precise"><span class="toggle-copy"><span class="toggle-title">Precise location during navigation</span><span class="toggle-detail">Exact coordinates can pinpoint a street address.</span></span><span class="switch"><input id="precise" type="checkbox" checked><span class="switch-track"></span></span></label>
-          <label class="toggle-row" for="background"><span class="toggle-copy"><span class="toggle-title">Collect location in the background</span><span class="toggle-detail">Continue sampling after the user leaves the app.</span></span><span class="switch"><input id="background" type="checkbox"><span class="switch-track"></span></span></label>
-          <label class="toggle-row" for="retention"><span class="toggle-copy"><span class="toggle-title">Keep a 90-day route history</span><span class="toggle-detail">Retain trips after navigation is complete.</span></span><span class="switch"><input id="retention" type="checkbox" checked><span class="switch-track"></span></span></label>
-          <label class="toggle-row" for="partners"><span class="toggle-copy"><span class="toggle-title">Share route-level data with ad partners</span><span class="toggle-detail">Give another company detailed trip information.</span></span><span class="switch"><input id="partners" type="checkbox" checked><span class="switch-track"></span></span></label>
-        </div>
-        <div class="panel-actions"><button class="primary-button" id="review-button" type="button">Run ethics review</button><button class="secondary-button" id="reset-button" type="button">Reset case</button></div>
-      </div>
-      <div class="review-panel" aria-live="polite">
-        <div class="review-top"><h3>Data exposure</h3><span class="risk-number" id="risk-number">Review not run</span></div>
-        <div class="risk-meter" id="risk-meter" role="img" aria-label="No review run"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-        <p class="risk-status" id="risk-status">Change a setting, then run the review.</p>
-        <div class="data-preview"><h4>What this configuration can reveal</h4><div class="data-pills" id="data-pills"><span class="data-pill">Exact route coordinates</span><span class="data-pill">Trip timestamps</span><span class="data-pill">Origin and destination</span></div></div>
-        <div class="recommendations"><h4>Design notes</h4><ul id="recommendations"><li>Precise location is useful for turn-by-turn directions, but ask only when needed and explain why.</li><li>Route histories can reveal routines and sensitive visits.</li><li>Route-level sharing with advertisers creates a separate privacy risk.</li></ul></div>
-        <p class="review-foot">The score is a teaching aid, not a legal verdict. A low score does not replace security, transparency, or meaningful user choice.</p>
-      </div>
-    </div>
-    <div class="ethics-band"><div><h3>Ethics asks more than “Can we?”</h3><p>Would a reasonable user expect this collection? Is it needed for the feature? Can people understand, refuse, and change their choice?</p></div><div><h3>Start with less</h3><p>Collect only what the service needs, limit access and retention, explain the purpose, and give people a real choice before optional tracking or sharing.</p></div></div>
-  </section>
 
   <section class="wrap section" id="field-guide">
     <div class="section-label">02 / Read the data trail</div>
@@ -175,18 +147,16 @@ body{background:var(--paper);color:var(--ink)}
     </div>
   </section>
 
-  <section class="wrap section evidence-section" id="reflection">
-    <div class="section-label">05 / Show your reasoning</div>
-    <h2>Write your field note.</h2>
-    <p class="section-intro">Use your own words to connect one interaction in the lab to the privacy risk, the ethical choice, and a revision you would make.</p>
-    <form class="evidence-form" id="reflection-form">
-      <label for="interaction">Which setting did you change in the data lab, and what changed in the review?<textarea id="interaction" name="interaction" required maxlength="500" placeholder="For example: I switched off background location. The review removed background points and recommended limiting collection to active navigation."></textarea></label>
-      <label for="ethics-explanation">Explain the ethical concern, then name one relevant law and its jurisdiction.<textarea id="ethics-explanation" name="ethics" required maxlength="700" placeholder="Separate what responsible design should do from what a specific law requires."></textarea></label>
-      <label for="revision-explanation">What revision would make this app or lesson better, and why?<textarea id="revision-explanation" name="revision" required maxlength="500" placeholder="Describe one concrete change and connect it to privacy, clarity, or user choice."></textarea></label>
-      <button class="primary-button" type="submit">Save my field note</button>
-      <p class="saved-status" id="reflection-status" aria-live="polite">Your field note has not been saved yet.</p>
-      <p class="evidence-note">Responses are saved only in this browser. Don't include your name or other personal information.</p>
-    </form>
+  <section class="wrap section evidence-section" id="more-info">
+    <div class="section-label">05 / More information</div>
+    <h2>Why precise location matters.</h2>
+    <p class="section-intro">A location permission can look simple, but a sequence of coordinates is often more revealing than a single map pin. The more detail an app collects, the more it can infer about a person's movements, relationships, and habits.</p>
+    <div class="guide-grid">
+      <article class="guide-item"><span class="micro">01 / Pattern analysis</span><h3>Location data is often personal data.</h3><p>Repeated timestamps and coordinates can show where a person lives, where they work, whether they visit a clinic, and how often they travel. Those inferences can become sensitive even if the app never names a person directly.</p><p><a class="source-link" href="https://www.ftc.gov/business-guidance/resources/complying-coppa-frequently-asked-questions" target="_blank" rel="noopener noreferrer">Source: Federal Trade Commission COPPA FAQ</a></p></article>
+      <article class="guide-item"><span class="micro">02 / User choice</span><h3>Notice is not the same as informed consent.</h3><p>Users need to understand what is collected, why it is collected, how long it is kept, and whether it is shared. If the design hides optional tracking behind a vague notice, it may be difficult for a user to make a real and informed choice.</p><p><a class="source-link" href="https://www.consumerfinance.gov/consumer-tools/privacy-policy/" target="_blank" rel="noopener noreferrer">Source: CFPB Privacy Policy examples and notices</a></p></article>
+      <article class="guide-item"><span class="micro">03 / Security and retention</span><h3>Storage and sharing multiply risk.</h3><p>A route history creates a secondary dataset that can be accessed, copied, retained, or reused beyond its original purpose. Short retention periods, limited access, and deletion controls are important safeguards that reduce harm if a breach or misuse occurs.</p><p><a class="source-link" href="https://www.nist.gov/itl/applied-cybersecurity/privacy-engineering" target="_blank" rel="noopener noreferrer">Source: NIST Privacy Engineering</a></p></article>
+      <article class="guide-item"><span class="micro">04 / Responsible design</span><h3>Good design uses the least data needed.</h3><p>Responsible software design limits collection to the smallest scope necessary, explains the purpose clearly, and gives users a meaningful way to opt out or change settings. This is not only a legal issue; it is a basic respect-for-users practice.</p><p><a class="source-link" href="https://www.iso.org/standard/70330.html" target="_blank" rel="noopener noreferrer">Source: ISO/IEC 27701 privacy information management</a></p></article>
+    </div>
   </section>
 
   <section class="laws" id="privacy-check">
@@ -203,8 +173,36 @@ body{background:var(--paper);color:var(--ink)}
     </div>
   </section>
 
+  <section class="wrap section" id="lab">
+    <div class="section-label">01 / Interactive design review</div>
+    <h2>You're reviewing a navigation app before launch.</h2>
+    <p class="section-intro">Waypoint needs location to guide a driver. Its product team proposes the settings below. Toggle them, inspect the data footprint, and run an ethics review. This is a learning simulation, not a legal compliance score.</p>
+    <div class="lab-shell">
+      <div class="control-panel">
+        <div class="panel-heading"><h3>Waypoint's proposed settings</h3><span class="case-tag">fictional app</span></div>
+        <p class="case-copy">Choose what the app collects, how long it keeps the trail, and whether it shares it.</p>
+        <div class="toggle-list">
+          <label class="toggle-row" for="precise"><span class="toggle-copy"><span class="toggle-title">Precise location during navigation</span><span class="toggle-detail">Exact coordinates can pinpoint a street address.</span></span><span class="switch"><input id="precise" type="checkbox" checked><span class="switch-track"></span></span></label>
+          <label class="toggle-row" for="background"><span class="toggle-copy"><span class="toggle-title">Collect location in the background</span><span class="toggle-detail">Continue sampling after the user leaves the app.</span></span><span class="switch"><input id="background" type="checkbox"><span class="switch-track"></span></span></label>
+          <label class="toggle-row" for="retention"><span class="toggle-copy"><span class="toggle-title">Keep a 90-day route history</span><span class="toggle-detail">Retain trips after navigation is complete.</span></span><span class="switch"><input id="retention" type="checkbox" checked><span class="switch-track"></span></span></label>
+          <label class="toggle-row" for="partners"><span class="toggle-copy"><span class="toggle-title">Share route-level data with ad partners</span><span class="toggle-detail">Give another company detailed trip information.</span></span><span class="switch"><input id="partners" type="checkbox" checked><span class="switch-track"></span></span></label>
+        </div>
+        <div class="panel-actions"><button class="primary-button" id="review-button" type="button">Run ethics review</button><button class="secondary-button" id="reset-button" type="button">Reset case</button></div>
+      </div>
+      <div class="review-panel" aria-live="polite">
+        <div class="review-top"><h3>Data exposure</h3><span class="risk-number" id="risk-number">Review not run</span></div>
+        <div class="risk-meter" id="risk-meter" role="img" aria-label="No review run"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <p class="risk-status" id="risk-status">Change a setting, then run the review.</p>
+        <div class="data-preview"><h4>What this configuration can reveal</h4><div class="data-pills" id="data-pills"><span class="data-pill">Exact route coordinates</span><span class="data-pill">Trip timestamps</span><span class="data-pill">Origin and destination</span></div></div>
+        <div class="recommendations"><h4>Design notes</h4><ul id="recommendations"><li>Precise location is useful for turn-by-turn directions, but ask only when needed and explain why.</li><li>Route histories can reveal routines and sensitive visits.</li><li>Route-level sharing with advertisers creates a separate privacy risk.</li></ul></div>
+        <p class="review-foot">The score is a teaching aid, not a legal verdict. A low score does not replace security, transparency, or meaningful user choice.</p>
+      </div>
+    </div>
+    <div class="ethics-band"><div><h3>Ethics asks more than “Can we?”</h3><p>Would a reasonable user expect this collection? Is it needed for the feature? Can people understand, refuse, and change their choice?</p></div><div><h3>Start with less</h3><p>Collect only what the service needs, limit access and retention, explain the purpose, and give people a real choice before optional tracking or sharing.</p></div></div>
+  </section>
+
 </main>
-<footer class="footer"><div class="wrap footer-inner"><p><strong>TRACE / Privacy Field Lab.</strong> A classroom learning project about location data, ethical technology design, COPPA (United States), and the CCPA (California). Fictional app, fictional route. This site does not request location or use analytics; reflection notes stay in this browser.</p><span class="micro">Sources checked October 2026</span></div></footer>
+<footer class="footer"><div class="wrap footer-inner"><p><strong>TRACE / Privacy Field Lab.</strong> A classroom learning project about location data, ethical technology design, COPPA (United States), and the CCPA (California). Fictional app, fictional route. This site does not request location or use analytics.</p><span class="micro">Sources checked October 2026</span></div></footer>
 <script>
 (() => {
   const settings = ["precise", "background", "retention", "partners"];
@@ -308,7 +306,7 @@ body{background:var(--paper);color:var(--ink)}
       $("#quiz-question").focus?.();
       return;
     }
-    $("#quiz-topic").textContent = "FIELD NOTES COMPLETE";
+    $("#quiz-topic").textContent = "KNOWLEDGE CHECK COMPLETE";
     $("#quiz-progress").textContent = "REVIEW FINISHED";
     $("#quiz-question").textContent = `You got ${score} of ${quiz.length} cases right.`;
     $("#quiz-options").replaceChildren();
@@ -324,32 +322,6 @@ body{background:var(--paper);color:var(--ink)}
     score = 0;
     renderQuestion();
   }
-  function connectLocalForm(formId, storageKey, statusId, savedMessage) {
-    const form = $(formId);
-    const status = $(statusId);
-    try {
-      const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
-      if (saved) {
-        for (const [name, value] of Object.entries(saved)) {
-          const field = form.elements.namedItem(name);
-          if (field && typeof value === "string") field.value = value;
-        }
-        status.textContent = savedMessage;
-      }
-    } catch {
-      status.textContent = "Browser storage is unavailable; keep this note separately for your assessment.";
-    }
-    form.addEventListener("submit", event => {
-      event.preventDefault();
-      const record = Object.fromEntries(new FormData(form).entries());
-      try {
-        localStorage.setItem(storageKey, JSON.stringify(record));
-        status.textContent = savedMessage;
-      } catch {
-        status.textContent = "Browser storage is unavailable; keep this note separately for your assessment.";
-      }
-    });
-  }
   for (const id of settings) $(`#${id}`).addEventListener("change", updateReview);
   $("#review-button").addEventListener("click", updateReview);
   $("#reset-button").addEventListener("click", () => {
@@ -359,7 +331,6 @@ body{background:var(--paper);color:var(--ink)}
     $("#partners").checked = true;
     updateReview();
   });
-  connectLocalForm("#reflection-form", "trace-field-note", "#reflection-status", "Field note saved in this browser.");
   updateReview();
   renderQuestion();
 })();

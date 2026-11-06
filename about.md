@@ -8,6 +8,6 @@ In my free time I play soccer and video games with friends.
 I love going to school to learn math and taking tests. 
 
 ## Navigation
-[Notebook](notebook.md)
+[Notebook]({{ '/notebook/' | relative_url }})
 
 [Home](index.md)
